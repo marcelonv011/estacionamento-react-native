@@ -31,6 +31,16 @@ export default function CondutorList() {
     }
   };
 
+  const deleteItem = async (id) => {
+    try {
+      await axios.delete(`http://192.168.1.3:8080/api/condutor?id=${id}`);
+      // Actualizar la lista después de eliminar el elemento
+      listGet();
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  };
+
   //actualiza una vez que hace el post
   useFocusEffect(
     React.useCallback(() => {
@@ -58,7 +68,10 @@ export default function CondutorList() {
               Tempo desconto: {item.tempoDesconto}
               {"\n"}{" "}
             </Text>
-            <TouchableOpacity style={styles.deleteContainer}>
+            <TouchableOpacity
+              style={styles.deleteContainer}
+              onPress={() => deleteItem(item.id)}
+            >
               <Text style={styles.deleteText}>EXCLUIR</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.putContainer}>
