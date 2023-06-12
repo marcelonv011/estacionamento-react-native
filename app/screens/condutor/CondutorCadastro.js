@@ -57,7 +57,7 @@ export default function CondutorCadastro() {
     }
 
     // Verificar la validez de todos los campos
-    if (nome && cpf && telefone && tempoPago && tempoDesconto) {
+    if (nome && cpf && telefone && tempoPago) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
