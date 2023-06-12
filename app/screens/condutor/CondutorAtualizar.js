@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View } from "react-native";
 import React from "react";
 
-export default function CondutorDetalle() {
+export default function CondutorAtualizar() {
   return (
     <View>
       <Text>opow</Text>

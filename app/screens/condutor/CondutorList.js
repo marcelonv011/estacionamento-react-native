@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  TouchableOpacity,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import { Card } from "@rneui/themed";
 
 export default function CondutorList() {
   const [data, setData] = useState([]);
@@ -23,6 +31,7 @@ export default function CondutorList() {
     }
   };
 
+  //actualiza una vez que hace el post
   useFocusEffect(
     React.useCallback(() => {
       listGet();
@@ -37,12 +46,25 @@ export default function CondutorList() {
       >
         <Text style={styles.text}>adicionar um condutor</Text>
       </Pressable>
-      <Text style={styles.letra}>Consumiendo api</Text>
       {data.map((item) => (
-        <View key={item.id}>
-          <Text>{item.nome}</Text>
-          <Text>{item.telefone}</Text>
-          <Text>{item.tempoPago}</Text>
+        <View key={item.id} style={styles.cardContainer}>
+          <Card style={styles.card}>
+            <Card.Title>Condutor: {item.nome}</Card.Title>
+            <Card.Divider />
+            <Text>CPF: {item.cpf}</Text>
+            <Text>Telefone: {item.telefone}</Text>
+            <Text>Tempo pago: {item.tempoPago}</Text>
+            <Text>
+              Tempo desconto: {item.tempoDesconto}
+              {"\n"}{" "}
+            </Text>
+            <TouchableOpacity style={styles.deleteContainer}>
+              <Text style={styles.deleteText}>EXCLUIR</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.putContainer}>
+              <Text style={styles.putText}>ATUALIZAR</Text>
+            </TouchableOpacity>
+          </Card>
         </View>
       ))}
     </ScrollView>
@@ -72,5 +94,31 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 0.25,
     color: "white",
+  },
+  cardContainer: {
+    marginVertical: 8,
+  },
+  card: {
+    padding: 16,
+    backgroundColor: "#F5F5F5",
+    borderRadius: 8,
+  },
+  deleteContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    marginTop: 60,
+  },
+  deleteText: {
+    color: "red",
+  },
+  putContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    marginTop: 120,
+  },
+  putText: {
+    color: "green",
   },
 });

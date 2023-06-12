@@ -2,7 +2,8 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CondutorList from "../screens/condutor/CondutorList";
 import CondutorCadastro from "../screens/condutor/CondutorCadastro";
-import CondutorDetalle from "../screens/condutor/CondutorDetalle";
+import CondutorDetalle from "../screens/condutor/CondutorAtualizar";
+import CondutorAtualizar from "../screens/condutor/CondutorAtualizar";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,9 +21,9 @@ export default function CondutorStack() {
         options={{ title: "cadastrar condutor" }}
       />
       <Stack.Screen
-        name="condutordetalle"
-        component={CondutorDetalle}
-        options={{ title: "detalle do condutor" }}
+        name="condutoratualizar"
+        component={CondutorAtualizar}
+        options={{ title: "atualizar condutor" }}
       />
     </Stack.Navigator>
   );

@@ -34,10 +34,23 @@ export default function CondutorCadastro() {
           data
         );
         console.log(response.data);
-        navigation.navigate("condutorlist");
-        setSuccessMessage("Agregado con éxito");
+        Toast.show({
+          type: "success",
+          text1: response.data,
+          position: "bottom",
+          visibilityTime: 3000,
+        });
+        setTimeout(() => {
+          navigation.navigate("condutorlist");
+        }, 2000);
       }
     } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: error.response.data,
+        position: "bottom",
+        visibilityTime: 3000,
+      });
       console.error(error.response.data);
     }
   };
@@ -92,13 +105,7 @@ export default function CondutorCadastro() {
         onChangeText={(text) => handleInputChange(text, "tempoDesconto")}
       />
       <Toast />
-      {successMessage
-        ? Toast.show({
-            text1: successMessage,
-            position: "bottom",
-            visibilityTime: 10000,
-          })
-        : null}
+      <Toast />
       <Button title="Submit" onPress={postData} disabled={!isFormValid} />
     </View>
   );
