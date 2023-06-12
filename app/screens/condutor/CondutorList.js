@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
-export default function CondutorList(props) {
+export default function CondutorList() {
   const [data, setData] = useState([]);
   const navigation = useNavigation();
 
@@ -21,6 +22,12 @@ export default function CondutorList(props) {
       Promise.reject(error.response.data);
     }
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      listGet();
+    }, [])
+  );
 
   return (
     <ScrollView>
