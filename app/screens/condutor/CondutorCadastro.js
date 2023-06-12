@@ -105,7 +105,6 @@ export default function CondutorCadastro() {
         onChangeText={(text) => handleInputChange(text, "tempoDesconto")}
       />
       <Toast />
-      <Toast />
       <Button title="Submit" onPress={postData} disabled={!isFormValid} />
     </View>
   );

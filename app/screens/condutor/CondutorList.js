@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
 import { Card } from "@rneui/themed";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 export default function CondutorList() {
   const [data, setData] = useState([]);
@@ -34,8 +35,17 @@ export default function CondutorList() {
   const deleteItem = async (id) => {
     try {
       await axios.delete(`http://192.168.1.3:8080/api/condutor?id=${id}`);
+
+      Toast.show({
+        type: "success",
+        text1: "excluido com sucesso",
+        position: "bottom",
+        visibilityTime: 3000,
+      });
       // Actualizar la lista después de eliminar el elemento
-      listGet();
+      setTimeout(() => {
+        listGet();
+      }, 2000);
     } catch (error) {
       console.error(error.response.data);
     }
@@ -78,6 +88,7 @@ export default function CondutorList() {
               <Text style={styles.putText}>ATUALIZAR</Text>
             </TouchableOpacity>
           </Card>
+          <Toast />
         </View>
       ))}
     </ScrollView>
