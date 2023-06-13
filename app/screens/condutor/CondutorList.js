@@ -10,7 +10,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
-import { Card } from "@rneui/themed";
+import { Card, Icon } from "@rneui/themed";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 export default function CondutorList() {
@@ -51,6 +51,10 @@ export default function CondutorList() {
     }
   };
 
+  const updateItem = (id) => {
+    navigation.navigate("condutoratualizar", { id });
+  };
+
   //actualiza una vez que hace el post
   useFocusEffect(
     React.useCallback(() => {
@@ -82,9 +86,24 @@ export default function CondutorList() {
               style={styles.deleteContainer}
               onPress={() => deleteItem(item.id)}
             >
+              <Icon
+                type="material-community"
+                name="delete-outline"
+                color="red"
+                size={15}
+              />
               <Text style={styles.deleteText}>EXCLUIR</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.putContainer}>
+            <TouchableOpacity
+              style={styles.putContainer}
+              onPress={() => updateItem(item.id)}
+            >
+              <Icon
+                type="material-community"
+                name="update"
+                color="green"
+                size={15}
+              />
               <Text style={styles.putText}>ATUALIZAR</Text>
             </TouchableOpacity>
           </Card>
@@ -139,8 +158,8 @@ const styles = StyleSheet.create({
   putContainer: {
     position: "absolute",
     top: 0,
-    right: 0,
-    marginTop: 120,
+    right: -7,
+    marginTop: 100,
   },
   putText: {
     color: "green",

@@ -10,7 +10,6 @@ export default function CondutorCadastro() {
   const [telefone, setTelefone] = useState("");
   const [tempoPago, setTempoPago] = useState("");
   const [tempoDesconto, setTempoDesconto] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const navigation = useNavigation();
   const [isFormValid, setIsFormValid] = useState(false);
 
