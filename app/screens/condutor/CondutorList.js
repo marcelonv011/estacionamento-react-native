@@ -146,9 +146,9 @@ export default function CondutorList() {
               </TouchableOpacity>
             </View>
           </Card>
-          <Toast />
         </View>
       ))}
+      <Toast />
     </ScrollView>
   );
 }
