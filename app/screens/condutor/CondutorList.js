@@ -6,6 +6,7 @@ import {
   ScrollView,
   Pressable,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -32,6 +33,24 @@ export default function CondutorList() {
     }
   };
 
+  const mensajedelete = (id) => {
+    Alert.alert(
+      "Confirmación",
+      "¿Estás seguro de que quieres eliminar este elemento?",
+      [
+        {
+          text: "Eliminar",
+          onPress: () => deleteItem(id),
+          style: "destructive",
+        },
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+      ]
+    );
+  };
+
   const deleteItem = async (id) => {
     try {
       await axios.delete(`http://192.168.1.3:8080/api/condutor?id=${id}`);
@@ -47,7 +66,12 @@ export default function CondutorList() {
         listGet();
       }, 2000);
     } catch (error) {
-      console.error(error.response.data);
+      Toast.show({
+        type: "error",
+        text1: error.response.data,
+        position: "bottom",
+        visibilityTime: 3000,
+      });
     }
   };
 
@@ -73,39 +97,54 @@ export default function CondutorList() {
       {data.map((item) => (
         <View key={item.id} style={styles.cardContainer}>
           <Card style={styles.card}>
-            <Card.Title>Condutor: {item.nome}</Card.Title>
+            <Text style={styles.title}>Condutor: {item.nome}</Text>
             <Card.Divider />
-            <Text>CPF: {item.cpf}</Text>
-            <Text>Telefone: {item.telefone}</Text>
-            <Text>Tempo pago: {item.tempoPago}</Text>
-            <Text>
-              Tempo desconto: {item.tempoDesconto}
-              {"\n"}{" "}
-            </Text>
-            <TouchableOpacity
-              style={styles.deleteContainer}
-              onPress={() => deleteItem(item.id)}
-            >
-              <Icon
-                type="material-community"
-                name="delete-outline"
-                color="red"
-                size={15}
-              />
-              <Text style={styles.deleteText}>EXCLUIR</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.putContainer}
-              onPress={() => updateItem(item.id)}
-            >
-              <Icon
-                type="material-community"
-                name="update"
-                color="green"
-                size={15}
-              />
-              <Text style={styles.putText}>ATUALIZAR</Text>
-            </TouchableOpacity>
+            <View style={styles.infoContainer}>
+              <View style={styles.infoItem}>
+                <Text
+                  style={[
+                    styles.ativoText,
+                    { color: item.ativo ? "green" : "red" },
+                  ]}
+                >
+                  Ativo: {item.ativo ? "Sí" : "No"}
+                </Text>
+              </View>
+              <View style={styles.infoItem}>
+                <Text>CPF:</Text>
+                <Text>{item.cpf}</Text>
+              </View>
+              <View style={styles.infoItem}>
+                <Text>Telefone:</Text>
+                <Text>{item.telefone}</Text>
+              </View>
+            </View>
+            <View style={styles.actionContainer}>
+              <TouchableOpacity
+                style={styles.iconContainer}
+                onPress={() => mensajedelete(item.id)}
+              >
+                <Icon
+                  type="material-community"
+                  name="delete-outline"
+                  color="red"
+                  size={15}
+                />
+                <Text style={styles.deleteText}>EXCLUIR</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.iconContainer}
+                onPress={() => updateItem(item.id)}
+              >
+                <Icon
+                  type="material-community"
+                  name="update"
+                  color="green"
+                  size={15}
+                />
+                <Text style={styles.putText}>ATUALIZAR</Text>
+              </TouchableOpacity>
+            </View>
           </Card>
           <Toast />
         </View>
@@ -115,9 +154,6 @@ export default function CondutorList() {
 }
 
 const styles = StyleSheet.create({
-  letra: {
-    fontSize: 50,
-  },
   button: {
     alignItems: "center",
     justifyContent: "center",
@@ -146,22 +182,37 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     borderRadius: 8,
   },
-  deleteContainer: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    marginTop: 60,
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  infoContainer: {
+    marginTop: 8,
+  },
+  infoItem: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  actionContainer: {
+    flexDirection: "row-reverse",
+    marginTop: 10,
+  },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 10,
   },
   deleteText: {
+    marginLeft: 5,
     color: "red",
-  },
-  putContainer: {
-    position: "absolute",
-    top: 0,
-    right: -7,
-    marginTop: 100,
+    fontWeight: "bold",
   },
   putText: {
+    marginLeft: 5,
     color: "green",
+    fontWeight: "bold",
+  },
+  ativoText: {
+    fontWeight: "bold",
   },
 });

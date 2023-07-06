@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Button, TextInput, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+import { Input, Button } from "@rneui/themed";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
@@ -8,8 +9,6 @@ export default function CondutorCadastro() {
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
   const [telefone, setTelefone] = useState("");
-  const [tempoPago, setTempoPago] = useState("");
-  const [tempoDesconto, setTempoDesconto] = useState("");
   const navigation = useNavigation();
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -23,8 +22,6 @@ export default function CondutorCadastro() {
         nome: nome,
         cpf: cpf,
         telefone: telefone,
-        tempoPago: tempoPago,
-        tempoDesconto: tempoDesconto,
       };
 
       if (isFormValid) {
@@ -50,7 +47,6 @@ export default function CondutorCadastro() {
         position: "bottom",
         visibilityTime: 3000,
       });
-      console.error(error.response.data);
     }
   };
 
@@ -62,14 +58,10 @@ export default function CondutorCadastro() {
       setCpf(text);
     } else if (field === "telefone") {
       setTelefone(text);
-    } else if (field === "tempoPago") {
-      setTempoPago(text);
-    } else if (field === "tempoDesconto") {
-      setTempoDesconto(text);
     }
 
     // Verificar la validez de todos los campos
-    if (nome && cpf && telefone && tempoPago) {
+    if (nome && cpf && telefone) {
       setIsFormValid(true);
     } else {
       setIsFormValid(false);
@@ -77,41 +69,77 @@ export default function CondutorCadastro() {
   };
 
   return (
-    <View>
-      <TextInput
-        placeholder="Nome"
+    <View style={styles.container}>
+      <Text style={styles.labelText}>Nome</Text>
+      <Input
+        placeholder=""
         value={nome}
+        containerStyle={styles.inputContainer}
+        inputStyle={styles.inputText}
         onChangeText={(text) => handleInputChange(text, "nome")}
       />
-      <TextInput
-        placeholder="Cpf"
+      <Text style={styles.labelText}>CPF</Text>
+      <Input
+        placeholder=""
         value={cpf}
+        containerStyle={styles.inputContainer}
+        inputStyle={styles.inputText}
         onChangeText={(text) => handleInputChange(text, "cpf")}
       />
-      <TextInput
-        placeholder="Telefone"
+      <Text style={styles.labelText}>Telefone</Text>
+      <Input
+        placeholder=""
         value={telefone}
+        containerStyle={styles.inputContainer}
+        inputStyle={styles.inputText}
         onChangeText={(text) => handleInputChange(text, "telefone")}
       />
-      <TextInput
-        placeholder="Tempopago"
-        value={tempoPago}
-        onChangeText={(text) => handleInputChange(text, "tempoPago")}
-      />
-      <TextInput
-        placeholder="Tempodesconto"
-        value={tempoDesconto}
-        onChangeText={(text) => handleInputChange(text, "tempoDesconto")}
-      />
       <Toast />
-      <Button title="Submit" onPress={postData} disabled={!isFormValid} />
+      <Button
+        title="Registrar"
+        buttonStyle={styles.buttonStyle}
+        onPress={postData}
+        disabled={!isFormValid}
+        containerStyle={styles.buttonContainer}
+        titleStyle={styles.buttonText}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  letra: {
-    fontSize: 50,
-    marginTop: 0,
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  labelText: {
+    fontSize: 18,
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
+  inputContainer: {
+    marginBottom: 20,
+    borderBottomWidth: 0,
+    borderRadius: 20,
+    paddingHorizontal: 40,
+    width: "65%",
+    alignSelf: "center",
+  },
+  inputText: {
+    textAlign: "center",
+  },
+  buttonContainer: {
+    height: 40,
+    width: 200,
+    marginHorizontal: 50,
+    marginVertical: 10,
+  },
+  buttonStyle: {
+    backgroundColor: "#0e7d0f",
+  },
+  buttonText: {
+    color: "white",
+    marginHorizontal: 20,
   },
 });
